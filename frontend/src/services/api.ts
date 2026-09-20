@@ -90,7 +90,7 @@ export interface ReminderResponseData {
   wa_link: string;
 }
 
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 export async function fetchDashboardSummary(): Promise<DashboardSummaryData> {
   const res = await fetch(`${API_BASE}/dashboard/summary`);
