@@ -289,3 +289,11 @@ def generate_reminder(payload: ReminderRequest, db: Session = Depends(get_db)):
         message=message,
         wa_link=wa_link
     )
+
+# Serve Frontend static files if they exist (for production deployment on Render)
+from fastapi.staticfiles import StaticFiles
+import os
+
+frontend_dist = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "frontend", "dist")
+if os.path.isdir(frontend_dist):
+    app.mount("/", StaticFiles(directory=frontend_dist, html=True), name="frontend")
