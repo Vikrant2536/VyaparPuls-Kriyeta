@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #000000;
+  --bg-deep: #0f2a2e;
+  --slate: #305050;
+  --mist: #b6bcc5;
+  --copper: #bc7363;
+  --copper-deep: #895c47;
+  --paper: #ece8e4;
+  --amber: #d9a45b;
+  --danger: #d9604f;
+  --ok: #5fb49c;
+}
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    background-color: var(--ink);
+  }
+  body {
+    -webkit-tap-highlight-color: transparent;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--ink);
+    color: var(--paper);
+    min-height: 100dvh;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  input, button, textarea, select {
+    font-family: inherit;
+  }
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .safe-bottom { padding-bottom: max(env(safe-area-inset-bottom, 14px), 14px); }
+}
+
+/* Custom dark scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.4); }
+::-webkit-scrollbar-thumb { background: rgba(188, 115, 99, 0.4); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(188, 115, 99, 0.8); }
+
+/* Cinematic Glass Panel */
+.glass-panel {
+  background: linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02)), rgba(10,14,16,0.55);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
+  transition: transform 200ms ease, border-color 200ms ease;
+}
+
+@supports not (backdrop-filter: blur(18px)) {
+  .glass-panel {
+    background: rgba(10,14,16,0.88);
+  }
+}
+
+.glass-panel:hover {
+  transform: translateY(-2px);
+  border-color: rgba(188,115,99,0.4);
+}
+
+.glass-panel-subtle {
+  background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), rgba(10,14,16,0.45);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+@supports not (backdrop-filter: blur(12px)) {
+  .glass-panel-subtle {
+    background: rgba(10,14,16,0.75);
+  }
+}
+
+/* Signature Cinematic Invert Button */
+.btn-cinematic {
+  background-color: #000000;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  border-radius: 22px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-cinematic:hover {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -4px rgba(255, 255, 255, 0.25);
+}
+
+.btn-cinematic:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+/* Copper Accent Button */
+.btn-copper {
+  background: linear-gradient(135deg, #bc7363 0%, #895c47 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 22px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  transition: all 200ms ease;
+  cursor: pointer;
+}
+
+.btn-copper:hover {
+  box-shadow: 0 0 20px rgba(188, 115, 99, 0.6);
+  transform: translateY(-1px);
+}
+
+/* Typewriter blinking caret */
+@keyframes blink-caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.typewriter-caret {
+  animation: blink-caret 0.9s step-end infinite;
+}
+
+/* Mic pulse animation */
+@keyframes mic-pulse-copper {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(188, 115, 99, 0.6); transform: scale(1); }
+  50%       { box-shadow: 0 0 0 18px rgba(188, 115, 99, 0);  transform: scale(1.05); }
+}
+.animate-mic-copper {
+  animation: mic-pulse-copper 1.6s ease-in-out infinite;
+}
+
+/* Fullscreen hero blur-up */
+.hero-blur-in {
+  animation: blurUp 0.8s ease-out forwards;
+}
+
+@keyframes blurUp {
+  from { filter: blur(20px); opacity: 0; }
+  to { filter: blur(0px); opacity: 1; }
+}
+
+@keyframes slow-scale {
+  0%, 100% { transform: scale(1.08); }
+  50% { transform: scale(1.14); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-slow-scale {
+    animation: slow-scale 30s ease-in-out infinite alternate;
+  }
+}
+
+
+
