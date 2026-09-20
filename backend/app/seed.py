@@ -69,9 +69,13 @@ def seed_database():
     today = date.today()
     random.seed(42)  # Deterministic seed for reproducible testing
 
-    print(f"Creating {len(INDIAN_CUSTOMERS)} customers...")
+    import os
+    is_vercel = bool(os.getenv("VERCEL"))
+    customers_to_seed = INDIAN_CUSTOMERS[:8] if is_vercel else INDIAN_CUSTOMERS
+    
+    print(f"Creating {len(customers_to_seed)} customers...")
     created_customers = []
-    for name, phone in INDIAN_CUSTOMERS:
+    for name, phone in customers_to_seed:
         days_ago = random.randint(30, 90)
         c = Customer(
             name=name,
@@ -144,9 +148,7 @@ def seed_database():
     )
     db.add(s_past_sale)
     db.add(s_past_payment)
-    db.commit()
-    db.refresh(s_past_sale)
-    db.refresh(s_past_payment)
+    db.flush()
     db.add(PaymentAllocation(payment_id=s_past_payment.id, sale_id=s_past_sale.id, allocated_amount=3200.0))
     total_txns += 2
 
@@ -182,8 +184,7 @@ def seed_database():
                     status="paid"
                 )
                 db.add(sale)
-                db.commit()
-                db.refresh(sale)
+                db.flush()
                 
                 pay_date = due_date - timedelta(days=random.randint(0, 2))
                 payment = Transaction(
@@ -198,8 +199,7 @@ def seed_database():
                     status="paid"
                 )
                 db.add(payment)
-                db.commit()
-                db.refresh(payment)
+                db.flush()
 
                 db.add(PaymentAllocation(payment_id=payment.id, sale_id=sale.id, allocated_amount=amount))
                 total_txns += 2

@@ -5,7 +5,8 @@ load_dotenv()
 
 class Settings:
     PROJECT_NAME: str = "VyaparPulse — Smart Supermarket Ledger"
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./vyaparpulse.db")
+    _default_db = "sqlite:////tmp/vyaparpulse.db" if os.getenv("VERCEL") else "sqlite:///./vyaparpulse.db"
+    DATABASE_URL: str = os.getenv("DATABASE_URL", _default_db)
     LLM_PROVIDER: str = os.getenv("LLM_PROVIDER", "gemini")  # gemini, claude, rule_only
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
     ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")
